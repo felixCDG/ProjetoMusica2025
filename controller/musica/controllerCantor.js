@@ -48,10 +48,11 @@ const inserirCantor = async function (cantor, contentType) {
 const atualizarCantor = async function (id, cantor, contentType) {
 
     try {
-        if (String(contentType).toLowerCase() == 'application/json') {
+        if (String(contentType).toLowerCase() == 'application/json') 
+        {
             if (cantor.nome == '' || cantor.nome == null || cantor.nome == undefined || cantor.nome.length > 100 ||
                 cantor.descricao == '' || cantor.descricao == null || cantor.descricao == undefined || cantor.descricao.length > 300 ||
-                cantor.foto == '' || cantor.foto == undefined || musica.foto > 100 ||
+                cantor.foto == '' || cantor.foto == undefined || cantor.foto > 100 ||
                 cantor.nome_artistico == '' || cantor.nome_artistico == null || cantor.nome_artistico == undefined || cantor.nome_artistico.length > 100 ||
                 cantor.genero_musical == '' || cantor.genero_musical == undefined || cantor.genero_musical.length > 45 ||
                 id == '' || id == undefined || id == null || isNaN(id)

@@ -22,6 +22,8 @@ const app = express()
 const controllerMusica = require ('./controller/musica/controllerMusica.js')
 const controllerCantor = require ('./controller/musica/controllerCantor.js')
 const controllerAlbum = require ('./controller/musica/controllerAlbum.js')
+const controllerGravadora = require ('./controller/musica/controllerGravadora.js')
+const controllerUsuario = require ('./controller/musica/controllerUsuario.js')
 
 const bodyParserJSON = bodyParser.json()
 
@@ -34,7 +36,11 @@ app.use((request, response, next)=>{
     next()
 })
 
+
+
 ///////////////////////////////////////// ENDPOINT MUSICA///////////////////////////////////////////////////////////////////////
+
+
 app.post('/v1/controle-musicas/musica', cors(), bodyParserJSON , async function (request, response) {
     
    let contentType = request.headers['content-type']
@@ -85,7 +91,12 @@ app.put('/v1/controle-musicas/musica/:id', cors(), bodyParserJSON, async functio
     response.status(resultMusica.status_code)
     response.json(resultMusica)
 })
+
+
 ///////////////////////////////////////// ENDPOINT CANTOR///////////////////////////////////////////////////////////////////////
+
+
+
 app.post('/v1/controle-cantor/cantor', cors(), bodyParserJSON , async function (request, response) {
     
  
@@ -94,6 +105,8 @@ app.post('/v1/controle-cantor/cantor', cors(), bodyParserJSON , async function (
     let dadosBody = request.body
     
     let resultCantor = await controllerCantor.inserirCantor(dadosBody, contentType)
+
+    // console.log(resultCantor)
     
    
     response.status(resultCantor.status_code)
@@ -109,35 +122,39 @@ app.get('/v1/controle-cantor/cantor', cors(), async function (request, response)
     response.json(resultCantor)
 })
 
-app.get('/v1/controle-album/album/:id', cors(), async function (request, response){
+app.get('/v1/controle-cantor/cantor/:id', cors(), async function (request, response){
 
-    let idAlbum = request.params.id
-    let resultAlbum = await controllerAlbum.buscarAlbum(idAlbum)
+    let idCantor = request.params.id
+    let resultCantor = await controllerCantor.buscarCantor(idCantor)
 
-    response.status(resultAlbum.status_code)
-    response.json(resultAlbum)
+    response.status(resultCantor.status_code)
+    response.json(resultCantor)
 })
 
-app.delete('/v1/controle-album/album/:id', cors(), async function (request, response){
+app.delete('/v1/controle-cantor/cantor/:id', cors(), async function (request, response){
 
-    let idAlbum = request.params.id
-    let resultAlbum = await controllerAlbum.excluirAlbum(idAlbum)
+    let idCantor = request.params.id
+    let resultCantor = await controllerCantor.excluirCantor(idCantor)
 
-    response.status(resultAlbum.status_code)
-    response.json(resultAlbum)
+    response.status(resultCantor.status_code)
+    response.json(resultCantor)
 })
 
-app.put('/v1/controle-album/album/:id', cors(), bodyParserJSON, async function (request, response){
+app.put('/v1/controle-cantor/cantor/:id', cors(), bodyParserJSON, async function (request, response){
 
     let contentType = request.headers['content-type']
-    let idAlbum = request.params.id
+    let idCantor = request.params.id
     let dadosBody = request.body
-    let resultAlbum = await controllerAlbum.atualizarAlbum(idAlbum, dadosBody, contentType)
+    let resultCantor = await controllerCantor.atualizarCantor(idCantor, dadosBody, contentType)
 
-    response.status(resultAlbum.status_code)
-    response.json(resultAlbum)
+    response.status(resultCantor.status_code)
+    response.json(resultCantor)
 })
+
+
 ///////////////////////////////////////// ENDPOINT ALBUM///////////////////////////////////////////////////////////////////////
+
+
 app.post('/v1/controle-album/album', cors(), bodyParserJSON , async function (request, response) {
     
     let contentType = request.headers['content-type']
@@ -188,6 +205,114 @@ app.put('/v1/controle-album/album/:id', cors(), bodyParserJSON, async function (
 })
 
 
-app.listen(5050, function(){
+///////////////////////////////////////// ENDPOINT GRAVADORA///////////////////////////////////////////////////////////////////////
+
+
+app.post('/v1/controle-gravadora/gravadora', cors(), bodyParserJSON , async function (request, response) {
+    
+    let contentType = request.headers['content-type']
+ 
+     let dadosBody = request.body
+ 
+     let resultGravadora = await controllerGravadora.inserirGravadora(dadosBody, contentType)
+     response.status(resultGravadora.status_code)
+     response.json(resultGravadora)
+ 
+ 
+ })
+
+app.get('/v1/controle-gravadora/gravadora', cors(), async function (request, response){
+    let resultGravadora = await controllerGravadora.listarGravadora()
+
+    response.status(resultGravadora.status_code)
+    response.json(resultGravadora)
+})
+
+app.get('/v1/controle-gravadora/gravadora/:id', cors(), async function (request, response){
+
+    let idGravdora = request.params.id
+    let resultGravadora = await controllerGravadora.buscarGravadora(idGravdora)
+
+    response.status(resultGravadora.status_code)
+    response.json(resultGravadora)
+})
+
+app.delete('/v1/controle-gravadora/gravadora/:id', cors(), async function (request, response){
+
+    let idGravdora = request.params.id
+    let resultGravadora = await controllerGravadora.excluirGravadora(idGravdora)
+
+    response.status(resultGravadora.status_code)
+    response.json(resultGravadora)
+})
+
+app.put('/v1/controle-gravadora/gravadora/:id', cors(), bodyParserJSON, async function (request, response){
+
+    let contentType = request.headers['content-type']
+    let idGravdora = request.params.id
+    let dadosBody = request.body
+    let resultGravadora = await controllerGravadora.atualizarGravadora(idGravdora, dadosBody, contentType)
+
+    response.status(resultGravadora.status_code)
+    response.json(resultGravadora)
+})
+
+
+///////////////////////////////////////// ENDPOINT USUARIO///////////////////////////////////////////////////////////////////////
+
+
+app.post('/v1/controle-usuario/', cors(), bodyParserJSON , async function (request, response) {
+    
+    let contentType = request.headers['content-type']
+ 
+     let dadosBody = request.body
+ 
+     let resultGravadora = await controllerGravadora.inserirGravadora(dadosBody, contentType)
+     response.status(resultGravadora.status_code)
+     response.json(resultGravadora)
+ 
+ 
+ })
+
+app.get('/v1/controle-gravadora/gravadora', cors(), async function (request, response){
+    let resultGravadora = await controllerGravadora.listarGravadora()
+
+    response.status(resultGravadora.status_code)
+    response.json(resultGravadora)
+})
+
+app.get('/v1/controle-gravadora/gravadora/:id', cors(), async function (request, response){
+
+    let idGravdora = request.params.id
+    let resultGravadora = await controllerGravadora.buscarGravadora(idGravdora)
+
+    response.status(resultGravadora.status_code)
+    response.json(resultGravadora)
+})
+
+app.delete('/v1/controle-gravadora/gravadora/:id', cors(), async function (request, response){
+
+    let idGravdora = request.params.id
+    let resultGravadora = await controllerGravadora.excluirGravadora(idGravdora)
+
+    response.status(resultGravadora.status_code)
+    response.json(resultGravadora)
+})
+
+app.put('/v1/controle-gravadora/gravadora/:id', cors(), bodyParserJSON, async function (request, response){
+
+    let contentType = request.headers['content-type']
+    let idGravdora = request.params.id
+    let dadosBody = request.body
+    let resultGravadora = await controllerGravadora.atualizarGravadora(idGravdora, dadosBody, contentType)
+
+    response.status(resultGravadora.status_code)
+    response.json(resultGravadora)
+})
+
+
+
+
+app.listen(3030, function(){
     console.log('API aguardando requisições...')
 })

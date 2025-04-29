@@ -11,7 +11,7 @@ const message = require('../../modulo/config.js')
 
 //Import para realizar o CRUD no banco de dados
 const usuarioDAO = require('../../model/DAO/usuario.js')
-const { listarCantor } = require('./controllerCantor.js')
+
 
 //Função para inserir uma nova musica
 const inserirUsuario = async function(usuario, contentType){
@@ -202,6 +202,6 @@ module.exports = {
     inserirUsuario,
     atualizarUsuario,
     excluirUsuario,
-    listarCantor,
+    listarUsuario,
     buscarUsuario
 }
