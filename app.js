@@ -299,7 +299,7 @@ app.delete('/v1/controle-usuario/usuario/:id', cors(), async function (request, 
     response.json(resultUsuario)
 })
 
-app.put('/v1/controle-gravadora/gravadora/:id', cors(), bodyParserJSON, async function (request, response){
+app.put('/v1/controle-usuario/usuario/:id', cors(), bodyParserJSON, async function (request, response){
 
     let contentType = request.headers['content-type']
     let idUsuario = request.params.id

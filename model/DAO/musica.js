@@ -25,13 +25,15 @@
                      duracao, 
                      data_lancamento, 
                      letra, 
-                     link) 
+                     link,
+                     id_cantor) 
                  values ( 
                      '${musica.nome}', 
                      '${musica.duracao}', 
                      '${musica.data_lancamento}', 
                      '${musica.letra}', 
-                    '${musica.link}')`
+                     '${musica.link}',
+                     '${musica.id_cantor}')`
  
      
      

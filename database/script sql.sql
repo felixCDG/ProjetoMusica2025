@@ -1,5 +1,6 @@
 create database db_controle_musicas_aa;
 
+
 use db_controle_musicas_aa;
 
 create table tbl_musica (
@@ -8,7 +9,12 @@ create table tbl_musica (
     duracao time not null,
     data_lancamento date not null,
     letra text,
-    link varchar(200)
+    link varchar(200),
+    id_cantor int not null,
+    constraint FK_CANTOR_MUSICA
+    foreign key (id_cantor)
+    references tbl_cantor(id)
+    
 );
 
 
@@ -46,3 +52,9 @@ create table tbl_usuario (
 
 
 show tables;
+desc tbl_musica;
+
+select * from tbl_musica;
+
+
+drop table tbl_musica;

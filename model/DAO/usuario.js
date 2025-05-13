@@ -20,13 +20,13 @@
    
     
  
-     let sql  = `insert into tbl_musica (
+     let sql  = `insert into tbl_usuario (
                      nome, 
                      senha, 
                      foto_perfil) 
                  values ( 
                      '${usuario.nome}', 
-                     '${usuario.senha}', 
+                     '${usuario.senha}',
                      '${usuario.foto_perfil}')`
  
      
@@ -49,13 +49,13 @@
  }
  
  //Função para atualizar uma musica existente
- const updateUsuario = async function(musica){
+ const updateUsuario = async function(usuario){
      
     try {
-        let sql = `update tbl_musica set nome          =     '${musica.nome}', 
-                                         senha         =     '${musica.senha}', 
-                                         foto_perfil   =     '${musica.foto_perfil}'
-                                    where id = ${musica.id}`   
+        let sql = `update tbl_usuario set nome          =     '${usuario.nome}', 
+                                         senha         =     '${usuario.senha}', 
+                                         foto_perfil   =     '${usuario.foto_perfil}'
+                                    where id = ${usuario.id}`   
                                     
         let result = await prisma.$executeRawUnsafe(sql)
 

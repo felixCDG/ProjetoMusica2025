@@ -12,6 +12,9 @@ const message = require('../../modulo/config.js')
 //Import para realizar o CRUD no banco de dados
 const musicaDAO = require('../../model/DAO/musica.js')
 
+//Import das controller necessárias para fazer os relacionamentos
+const controllerCantor = require('../musica/controllerCantor.js')
+
 //Função para inserir uma nova musica
 const inserirMusica = async function(musica, contentType){
 
@@ -24,7 +27,8 @@ const inserirMusica = async function(musica, contentType){
             if(musica.nome            == '' || musica.nome            == null || musica.nome            == undefined || musica.nome.length            > 100 ||
             musica.duracao         == '' || musica.duracao         == null || musica.duracao         == undefined || musica.duracao.length         > 8  ||
             musica.data_lancamento == '' || musica.data_lancamento == null || musica.data_lancamento == undefined || musica.data_lancamento.length > 10  ||
-            musica.letra    == undefined || musica.link       == undefined || musica.link.length                                                      > 200
+            musica.letra    == undefined || musica.link       == undefined || musica.link.length                                                      > 200||
+            musica.id_cantor      ==        '' || musica.id_cantor        == undefined
             ){
                 return message.ERROR_REQUIRED_FIELDS//status code 400
             }else{
@@ -57,18 +61,19 @@ const atualizarMusica = async function(id, musica, contentType){
                         musica.data_lancamento == '' || musica.data_lancamento == null || musica.data_lancamento == undefined || musica.data_lancamento.length > 10  ||
                         musica.letra    == undefined || 
                         musica.link     == undefined || musica.link.length                                              > 200 ||
-                        id              == ''        || id                == undefined || id                     == null      || isNaN (id)
+                        id              == ''        || id                == undefined || id                     == null      || isNaN (id)                          ||
+                        musica.id_cantor       ==        '' || musica.id_cantor         == undefined
                     ){
                         return message.ERROR_REQUIRED_FIELDS//status code 400
                     }else{
                         //Antes estamos verifificando se existe esse ID
-                        let result = await musicaDAO.selectByIdMusica(id)
+                        let result = await musicaDAO.selectByIdMusica(parseInt(id))
 
                         if(result != false || typeof(result) == 'object'){
                             if(result.length > 0){
                             
                                 // Adiciona o atributo do ID no JSON com os dados recebidos no corpo da requisição 
-                                musica.id = id
+                                musica.id = parseInt(id)
                                 let resultMusica = await musicaDAO.updateMusica(musica)
 
                                 if (resultMusica){
@@ -132,6 +137,8 @@ const excluirMusica = async function(id){
 //Função para retornar uma lista de músicas
 const listarMusica = async function(){
     try {
+        //Cria um objeto array para montar a nova estrutura de musicas no forEach
+        let arrayMusicas = []
 
         //objeto JSON
         let dadosMusica = {}
@@ -143,11 +150,37 @@ const listarMusica = async function(){
 
         if(resultMusica != false){
             if(resultMusica.length > 0){
+
+
+
                 //Cria um JSON para colocar o array de musica
                 dadosMusica.status = true,
                 dadosMusica.status_code = 200,
                 dadosMusica.items = resultMusica.length
-                dadosMusica.musics = resultMusica
+                // dadosMusica.musics = resultMusica
+
+                //Percorrer o array de musicas para pegar cada ID do Cantor
+                // e descobrir quais os dados do Cantor
+                
+                // resultMusica.forEach( async function(itemMusica){
+                //Precisamos utilizar o for of, pois o foreach não consegue trabalhar com 
+                // requisições async com await
+
+                for(const itemMusica of resultMusica){
+                     /* Monta o objeto da Cantor para retornar no Musica (1XN) */
+                        //Busca os dados do Cantor na controller do Cantor
+                        let dadosCantor = await controllerCantor.buscarCantor(itemMusica.id_cantor)
+                        //Adiciona um atributo Cantor no JSON de filmes e coloca os dados do Cantor
+                        itemMusica.cantor = dadosCantor.cantor
+                         //Remover um atributo do JSON
+                         delete itemMusica.id_cantor
+                     /* */
+
+                    //Adiciona em um novo array o JSON de Musica com a sua nova estrutura de dados
+                    arrayMusicas.push(itemMusica)
+                }
+
+                dadosMusica.musics = arrayMusicas
 
                 return dadosMusica
             }else{
