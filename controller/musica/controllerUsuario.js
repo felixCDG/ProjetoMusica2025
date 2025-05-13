@@ -23,7 +23,7 @@ const inserirUsuario = async function(usuario, contentType){
 
             // console.log(musica)
             if(usuario.nome            == '' || usuario.nome            == null || usuario.nome            == undefined || usuario.nome.length            > 80 ||
-               usuario.senha            == '' || usuario.senha            == null || usuario.senha            == undefined || usuario.senha.length            > 50 ||
+               usuario.senha            == '' || usuario.senha            == null || usuario.senha            == undefined || usuario.senha.length            > 80 ||
                usuario.foto_perfil            == '' || usuario.foto_perfil            == null || usuario.foto_perfil            == undefined || usuario.foto_perfil.length            > 100 
                
             ){

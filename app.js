@@ -261,53 +261,53 @@ app.put('/v1/controle-gravadora/gravadora/:id', cors(), bodyParserJSON, async fu
 ///////////////////////////////////////// ENDPOINT USUARIO///////////////////////////////////////////////////////////////////////
 
 
-app.post('/v1/controle-usuario/', cors(), bodyParserJSON , async function (request, response) {
+app.post('/v1/controle-usuario/usuario', cors(), bodyParserJSON , async function (request, response) {
     
     let contentType = request.headers['content-type']
  
      let dadosBody = request.body
  
-     let resultGravadora = await controllerGravadora.inserirGravadora(dadosBody, contentType)
-     response.status(resultGravadora.status_code)
-     response.json(resultGravadora)
+     let resultUsuario = await controllerUsuario.inserirUsuario(dadosBody, contentType)
+     response.status(resultUsuario.status_code)
+     response.json(resultUsuario)
  
  
  })
 
-app.get('/v1/controle-gravadora/gravadora', cors(), async function (request, response){
-    let resultGravadora = await controllerGravadora.listarGravadora()
+app.get('/v1/controle-usuario/usuario', cors(), async function (request, response){
+    let resultUsuario = await controllerUsuario.listarUsuario()
 
-    response.status(resultGravadora.status_code)
-    response.json(resultGravadora)
+    response.status(resultUsuario.status_code)
+    response.json(resultUsuario)
 })
 
-app.get('/v1/controle-gravadora/gravadora/:id', cors(), async function (request, response){
+app.get('/v1/controle-usuario/usuario/:id', cors(), async function (request, response){
 
-    let idGravdora = request.params.id
-    let resultGravadora = await controllerGravadora.buscarGravadora(idGravdora)
+    let idUsuario = request.params.id
+    let resultUsuario = await controllerUsuario.buscarUsuario(idUsuario)
 
-    response.status(resultGravadora.status_code)
-    response.json(resultGravadora)
+    response.status(resultUsuario.status_code)
+    response.json(resultUsuario)
 })
 
-app.delete('/v1/controle-gravadora/gravadora/:id', cors(), async function (request, response){
+app.delete('/v1/controle-usuario/usuario/:id', cors(), async function (request, response){
 
-    let idGravdora = request.params.id
-    let resultGravadora = await controllerGravadora.excluirGravadora(idGravdora)
+    let idUsuario = request.params.id
+    let resultUsuario = await controllerUsuario.excluirUsuario(idUsuario)
 
-    response.status(resultGravadora.status_code)
-    response.json(resultGravadora)
+    response.status(resultUsuario.status_code)
+    response.json(resultUsuario)
 })
 
 app.put('/v1/controle-gravadora/gravadora/:id', cors(), bodyParserJSON, async function (request, response){
 
     let contentType = request.headers['content-type']
-    let idGravdora = request.params.id
+    let idUsuario = request.params.id
     let dadosBody = request.body
-    let resultGravadora = await controllerGravadora.atualizarGravadora(idGravdora, dadosBody, contentType)
+    let resultUsuario = await controllerUsuario.atualizarUsuario(idUsuario, dadosBody, contentType)
 
-    response.status(resultGravadora.status_code)
-    response.json(resultGravadora)
+    response.status(resultUsuario.status_code)
+    response.json(resultUsuario)
 })
 
 
