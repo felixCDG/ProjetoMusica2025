@@ -142,7 +142,7 @@ const listarCantor = async function () {
                 dadosCantor.status = true,
                     dadosCantor.status_code = 200,
                     dadosCantor.items = resultCantor.length
-                dadosCantor.singer = resultCantor
+                dadosCantor.cantor = resultCantor
 
                 return dadosCantor
             } else {
@@ -177,7 +177,7 @@ const buscarCantor = async function (id, contentType) {
                     //Cria um JSON para colocar o array de musica
                     dadosCantor.status = true,
                         dadosCantor.status_code = 200,
-                        dadosCantor.singer = resultCantor
+                        dadosCantor.cantor = resultCantor
 
                     return dadosCantor
                 } else {

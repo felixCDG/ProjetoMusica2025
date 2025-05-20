@@ -145,19 +145,19 @@ const listarMusica = async function(){
 
         //Chama a função para retornar a musica para o banco de dados 
         let resultMusica = await musicaDAO.selectAllMusica()
+        console.log(resultMusica)
 
       
 
-        if(resultMusica != false){
+        if(resultMusica != false || typeof(resultMusica) == 'object'){
             if(resultMusica.length > 0){
 
 
 
                 //Cria um JSON para colocar o array de musica
-                dadosMusica.status = true,
-                dadosMusica.status_code = 200,
+                dadosMusica.status = true
+                dadosMusica.status_code = 200
                 dadosMusica.items = resultMusica.length
-                // dadosMusica.musics = resultMusica
 
                 //Percorrer o array de musicas para pegar cada ID do Cantor
                 // e descobrir quais os dados do Cantor
@@ -174,6 +174,7 @@ const listarMusica = async function(){
                         itemMusica.cantor = dadosCantor.cantor
                          //Remover um atributo do JSON
                          delete itemMusica.id_cantor
+                    
                      /* */
 
                     //Adiciona em um novo array o JSON de Musica com a sua nova estrutura de dados
@@ -181,6 +182,7 @@ const listarMusica = async function(){
                 }
 
                 dadosMusica.musics = arrayMusicas
+                // console.log(arrayMusicas)
 
                 return dadosMusica
             }else{
@@ -196,29 +198,46 @@ const listarMusica = async function(){
 }
 
 //Função para buscar uma musica pelo ID
-const buscarMusica = async function(id, contentType){
-    
+const buscarMusica = async function(id){
     try {
 
-        if(id == '' || id == undefined || id == null || isNaN(id)){
+        let arrayMusicas = []
+        
+        if(id == '' || id == undefined || id == null || isNaN(id) || id <=0){
             return message.ERROR_REQUIRED_FIELDS //400
         }else{
-        //objeto JSON
-            let dadosMusica = {}
+            dadosMusica = {}
 
-            //Chama a função para retornar a musica para o banco de dados 
-            let resultMusica = await musicaDAO.selectByIdMusica(id)
-
-        
-
+            let resultMusica = await musicaDAO.selectByIdMusica(parseInt(id))
+            
             if(resultMusica != false || typeof(resultMusica) == 'object'){
                 if(resultMusica.length > 0){
-                    //Cria um JSON para colocar o array de musica
-                    dadosMusica.status = true,
-                    dadosMusica.status_code = 200,
-                    dadosMusica.musics = resultMusica
+                     //Criando um JSON de retorno de dados para a API
+                    dadosMusica.status = true
+                    dadosMusica.status_code = 200
+                    
+                     //Precisamos utilizar o for of, pois o foreach não consegue trabalhar com 
+                // requisições async com await
+                for(const itemMusica of resultMusica){
+                    //Busca os dados da classificação na controller de classificacao
+                    let dadosCantor = await controllerCantor.buscarCantor(itemMusica.id_cantor)
+                    
+                    //Adiciona um atributo classificação no JSON de filmes e coloca os dados da classificação
+                    itemMusica.cantor = dadosCantor.cantor
+                    
+                    //Remover um atributo do JSON
+                    delete itemMusica.id_cantor
+                    
+                    //Adiciona em um novo array o JSON de filmes com a sua nova estrutura de dados
+                    arrayMusicas.push(itemMusica)
+ 
+                }
+                
+                dadosMusica.films = arrayMusicas
 
+                    console.log(arrayMusicas)
                     return dadosMusica
+                    
                 }else{
                     return message.ERROR_NOT_FOUND // 404 
                 }
